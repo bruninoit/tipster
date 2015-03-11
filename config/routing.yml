@@ -1,0 +1,3 @@
+bruninoit_tipster_controller:
+    path: /tipster/classifica
+    defaults: { _controller: bruninoit.tipster.controller:classifica_tipster }
