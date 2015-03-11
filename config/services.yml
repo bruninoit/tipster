@@ -11,3 +11,11 @@ services:
             - %core.php_ext%
         tags:
             - { name: event.listener }
+    bruninoit.tipster.controller:
+        class: bruninoit\tipster\controller\classifica_tipster
+        arguments:
+            - @dbal.conn
+            - @user
+            - @config
+            - @controller.helper
+            - @template
