@@ -52,7 +52,48 @@ $this->user = $user;
         $autori_tipster_a .= $autori_tipster[$i]['autore_tipster'].",";
       }
       
+      	//Calcola Profitto (tutti gli anni)
+	$profitto_autori_tipster_all = array();
+	for($i = 0; $i < count($autori_tipster); $i++ )
+	{
+        	$profitto = 0;
+        	$sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$autori_tipster[$i]['autore_tipster']."'";
+        	$result = $this->db->sql_query($sql);
+        	while ($row = $this->db->sql_fetchrow($result))
+      			{
+          			$profitto += floatval($row['valore_profitto_vincente']) + floatval($row['valore_profitto_perdente']);
+      			}
+      		if($profitto != 0)
+      		{
+          	$profitto_autori_tipster_all[$autori_tipster[$i]['autore_tipster']] = $profitto;
+        	}
+     $this->db->sql_freeresult($result);
+     arsort($profitto_autori_tipster_all);
+     arsort($profitto_autori_tipster_all_ultimo_mese);
+      
+         //Calcola Profitto (CALCIO)
+
+      $profitto_autori_tipster_all_calcio = array();
+
+      for($i = 0; $i < count($autori_tipster); $i++ ){
+        $profitto = 0;
+        $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$autori_tipster[$i]['autore_tipster']."' AND pick_sport = '1'";
+        $result = $this->db->sql_query($sql);
+      	while ($row = $this->db->sql_fetchrow($result))
+      	{
+          $profitto += floatval($row['valore_profitto_vincente']) + floatval($row['valore_profitto_perdente']);
+      	}
+
+        if($profitto != 0){
+          $profitto_autori_tipster_all_calcio[$autori_tipster[$i]['autore_tipster']] = $profitto;
+        }
+        $this->db->sql_freeresult($result);
+      }
+      arsort($profitto_autori_tipster_all_calcio);
+      
       //codice da controllare1
+      
+      
       
 	  }
 }
