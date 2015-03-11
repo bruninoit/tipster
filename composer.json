@@ -1,0 +1,26 @@
+{
+"name": "bruninoit/tipster",
+"type": "phpbb-extension",
+"description": "Estensione Tipster",
+"homepage": "https://github.com/bruninoit/tipster",
+"version": "0.1.0",
+"time": "2015-05-02",
+"license": "GPL-2.0",
+"authors": [
+{
+"name": "brunino",
+"email": "brunino@altervista.org",
+"homepage": "http://www.brunino.altervista.org",
+"role": "Developer"
+}
+],
+"require": {
+"php": ">=5.3"
+},
+"extra": {
+"display-name": "Tipster",
+"soft-require": {
+"phpbb/phpbb": "3.1.*@dev"
+}
+}
+}
