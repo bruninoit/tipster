@@ -406,9 +406,6 @@ $this->user = $user;
          //$a = round($somma / $num_picks);
          return $a;   
       }
-
-      
-      //codice da controllare1
       
       
       
