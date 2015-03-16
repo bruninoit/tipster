@@ -37,6 +37,25 @@ $this->user = $user;
 
 	  public function classifica_tipster()
 	  {
+	$mese_corrente = date("n");
+      $anno = date("Y");
+      $mese_x = "";
+      
+      if ($mese_corrente == "1"){$mese_x = "Gennaio";}
+      if ($mese_corrente == "2"){$mese_x = "Febbraio";}
+      if ($mese_corrente == "3"){$mese_x = "Marzo";}
+      if ($mese_corrente == "4"){$mese_x = "Aprile";}
+      if ($mese_corrente == "5"){$mese_x = "Maggio";}
+      if ($mese_corrente == "6"){$mese_x = "Giugno";}
+      if ($mese_corrente == "7"){$mese_x = "Luglio";}
+      if ($mese_corrente == "8"){$mese_x = "Agosto";}
+      if ($mese_corrente == "9"){$mese_x = "Settembre";}
+      if ($mese_corrente == "10"){$mese_x = "Ottobre";}
+      if ($mese_corrente == "11"){$mese_x = "Novembre";}
+      if ($mese_corrente == "12"){$mese_x = "Dicembre";}
+      $this->template->assign_vars(array('MESE_X'       => $mese_x));
+      
+      
       $autori_tipster = array();
       $sql = "SELECT * FROM pronostici GROUP BY autore_tipster ORDER BY 'autore_tipster' ASC";
     	$result = $this->db->sql_query($sql);
@@ -51,6 +70,8 @@ $this->user = $user;
       {
         $autori_tipster_a .= $autori_tipster[$i]['autore_tipster'].",";
       }
+      $this->template->assign_vars(array('AUTORI_TIPSTER_A'       => $autori_tipster_a)); 
+	
       
       	//Calcola Profitto (tutti gli anni)
 	$profitto_autori_tipster_all = array();
@@ -69,6 +90,7 @@ $this->user = $user;
         	}
      $this->db->sql_freeresult($result);
 	}
+
      arsort($profitto_autori_tipster_all);
      arsort($profitto_autori_tipster_all_ultimo_mese);
 	
