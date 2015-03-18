@@ -110,18 +110,53 @@ $this->user = $user;
                                       $row = $db->sql_fetchrow($result);
                                       $avatar = $row['user_avatar'];
                                       
-                                      if($avatar == ""){
+                                      if($avatar == "")
+                                      {
                                         $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
                                       }else{
                                         $avatar_tipster = "./download/file.php?avatar=".$avatar;
                                       }
+                                      
+                                      if ($value >= 0 )
+                                      {
+                                      $up_down="up";
+                                      }else{
+                                      $up_down="down";
+                                      }
+                                      $number_value=number_format($value, 2, '.', '');
+                                      
+                                      //controllo
+                                      $value2 = profitto_tipster_periodo_specifico($this->db,$tipster,date("m"),date("Y"));
+                                      if ($value2 >= 0 )
+                                      {
+                                      $up_down_mese="up";
+                                      }else{
+                                      $up_down_mese="down";
+                                      }
+                                      
+                                      //controllo
+                                      $yeld=yield_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $picks=picks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $winpicks=winpicks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $stake=stake_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $odd=odd_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                        
                         //da sistemare root
                         $link_profilo="{$this->rootpatch}app.php/statistiche_tipster/{$tipster}";
 			$this->template-> assign_block_vars('profitto_autori_tipster_all',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
 			'AVATAR_TIPSTER'	=> $avatar_tipster
-			'TIPSTER'		=> $tipster
+			'TIPSTER'		=> $tipster,
+			'UP_DOWN'		=> $up_down,
+			'NUMBER_VALUE'		=> $number_value,
+			'UP_DOWN_MESE'		=> $up_down_mese,
+			'VALUEDUE'		=> $value2,
+			'YELD'			=> $yeld,
+			'PICKS'			=> $picks,
+			'WINPICKS'		=> $winpicks,
+			'STAKE'			=> $stake,
+			'ODD'			=> $odd
 			));
 			
 			
