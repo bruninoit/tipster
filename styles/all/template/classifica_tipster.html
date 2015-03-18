@@ -639,41 +639,21 @@ DA CONTROLLARE!!!!!
                                  <!-- Fine: Tipster -->
                              
                               <!-- Profitto -->
-                          			 <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      if ($value >= 0 ){
-                                    <!-- ENDPHP -->
-                                      <img alt ="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo number_format($value, 2, '.', '');<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }else{
-                                    <!-- ENDPHP -->
-                                      <img alt = "" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo number_format($value, 2, '.', '');<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }
-                                    <!-- ENDPHP -->
-                                 </td>
+                          	<td style="text-align:center;">
+                                      <img alt ="" src="tipster/small_arrow_{profitto_autori_tipster_all.UP_DOWN}.png" /> {profitto_autori_tipster_all.NUMBER_VALUE}
+                                  </td>
                               <!-- Fine: Profitto -->
                               <!-- Profitto: Mese corrente -->
                                 <td style="text-align: center;">
-                                   <!-- PHP -->
-                                    $value2 = profitto_tipster_periodo_specifico($db,$tipster,date("m"),date("Y"));
-                                      if ($value2 >= 0 ){
-                                    <!-- ENDPHP -->
-                                      <img alt ="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }else{
-                                    <!-- ENDPHP -->
-                                      <img alt = "" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }
-                                    <!-- ENDPHP -->
+                                      <img alt ="" src="tipster/small_arrow_{profitto_autori_tipster_all.UP_DOWN_MESE}.png" /> {profitto_autori_tipster_all.VALUEDUE}
                                 </td>
                               <!-- Fine: Profitto: Mese corrente -->
-                                <td style="text-align:center;"><!-- PHP -->echo yield_tipster_periodo_specifico($db,$tipster,$mese,$anno);<!-- ENDPHP -->%</td>
-                                <td style="text-align:center;"><!-- PHP -->echo picks_tipster_periodo_specifico($db,$tipster,$mese,$anno);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo winpicks_tipster_periodo_specifico($db,$tipster,$mese,$anno);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo stake_avg_tipster_periodo_specifico($db,$tipster,$mese,$anno);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo odd_avg_tipster_periodo_specifico($db,$tipster,$mese,$anno);<!-- ENDPHP --></td>
+                                
+                                <td style="text-align:center;">{profitto_autori_tipster_all.YELD}%</td>
+                                <td style="text-align:center;">{profitto_autori_tipster_all.PICKS}</td>
+                                <td style="text-align:center;">{profitto_autori_tipster_all.WINPICKS}</td>
+                                <td style="text-align:center;">{profitto_autori_tipster_all.STAKE}</td>
+                                <td style="text-align:center;">{profitto_autori_tipster_all.ODD}</td>
                                 
                                 <th style="display:none;">  <!-- Posizione -->
                                   <!-- PHP -->
