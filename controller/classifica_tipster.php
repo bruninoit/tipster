@@ -17,6 +17,11 @@ class main
 	protected $template;
 	/* @var \phpbb\user */
 	protected $user;
+	
+	
+	//roooooottt service
+	
+	
 protected $db; 
 	/**
 	* Constructor
@@ -90,6 +95,40 @@ $this->user = $user;
         	}
      $this->db->sql_freeresult($result);
 	}
+
+
+
+
+				$posizione_classifica = 1;
+                            foreach ($profitto_autori_tipster_all as $key => $value)
+                            {
+                                $tipster = $key;
+                                $mese = "%";
+                                $anno = "%";
+                                $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
+                                    	$result = $db->sql_query($sql);
+                                      $row = $db->sql_fetchrow($result);
+                                      $avatar = $row['user_avatar'];
+                                      
+                                      if($avatar == ""){
+                                        $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
+                                      }else{
+                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
+                                      }
+                        //da sistemare root
+                        $link_profilo="{$this->rootpatch}app.php/statistiche_tipster/{$tipster}";
+			$this->template-> assign_block_vars('profitto_autori_tipster_all',array(
+			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
+			'LINK_PROFILO'		=> $link_profilo,
+			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'TIPSTER'		=> $tipster
+			));
+			
+			
+			
+			
+			$posizione_classifica = $posizione_classifica + 1;
+                            }
 
      arsort($profitto_autori_tipster_all);
      arsort($profitto_autori_tipster_all_ultimo_mese);
