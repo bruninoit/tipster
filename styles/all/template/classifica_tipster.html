@@ -618,44 +618,23 @@
                           	</tfoot>
                           	<tbody>  
 DA CONTROLLARE!!!!!
- <!-- PHP --> 
-                            $posizione_classifica = 1;
-                            foreach ($profitto_autori_tipster_all as $key => $value) {
-                                $tipster = $key;
-                                $mese = "%";
-                                $anno = "%";
-                                
-                            <!-- ENDPHP --> 
-                            <!-- CICLO DA PORTARE IN PHP -->
+                            <!-- BEGIN profitto_autori_tipster_all -->
                           		<tr>
                                 <!-- Posizione in Classifica -->
                                   <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      echo $posizione_classifica."&deg; posto";  
-                                    <!-- ENDPHP -->
+                                    
+                                       {profitto_autori_tipster_all.POSIZIONE_CLASSIFICA posto
+                                    
                                   </td>
-                                <!-- Fine: Posizione in Classifica -->
                                 
                                 <!-- Tipster --> 
                                    <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
-                                    	$result = $db->sql_query($sql);
-                                      $row = $db->sql_fetchrow($result);
-                                      $avatar = $row['user_avatar'];
                                       
-                                      if($avatar == ""){
-                                        $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
-                                      }else{
-                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
-                                      }
-                                    <!-- ENDPHP -->
-                                      
-                                      <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->">
-                                        <img alt="" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="<!-- PHP -->echo $avatar_tipster;<!-- ENDPHP -->" />
+                                      <a href="{profitto_autori_tipster_all.LINK_PROFILO}">
+                                        <img alt="" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="{profitto_autori_tipster_all.AVATAR_TIPSTER}" />
                                       </a>
                                       <br />
-                                      <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->"><!-- PHP -->echo "<span style=\"text-align:center;\">".$tipster."</span>";<!-- ENDPHP --></a>
+                                      <a href="{profitto_autori_tipster_all.LINK_PROFILO}"><span style="text-align:center;">{profitto_autori_tipster_all.TIPSTER}</span></a>
                                    </td>         
                                  <!-- Fine: Tipster -->
                              
@@ -707,12 +686,9 @@ DA CONTROLLARE!!!!!
                                   <!-- ENDPHP -->
                                 </th> 
                           </tr>
-                             
-                          <!-- PHP -->
-                            $posizione_classifica = $posizione_classifica + 1; 
-                            }
-                          <!-- ENDPHP --> 
-                    
+
+                      <!-- END profitto_autori_tipster_all -->
+
                           </tbody>
                        </table>
                       <!-- Fine: Tabella Classifica generale - TUTTI GLI SPORT -->
