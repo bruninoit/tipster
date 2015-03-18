@@ -1,0 +1,16 @@
+VARIE UTILI
+
+
+$this->template->assign_vars(array('TOTAL_BAN'       => $this->user->lang['TOTAL_BAN'])); 
+
+
+$this->template-> assign_block_vars('risultati',array(
+		'NOME'=> $row['username'],
+		'BANIN'=> $banstart,
+		'BAN'=> $ban,
+		'MOTIVO'=> $ban_reason
+	));
+
+<!-- BEGIN risultati -->
+{risultati.NOME}
+<!-- END risultati -->
