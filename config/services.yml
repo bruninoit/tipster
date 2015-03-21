@@ -19,3 +19,4 @@ services:
             - @config
             - @controller.helper
             - @template
+            - %core.root_path%
