@@ -19,7 +19,7 @@ class main
 	protected $user;
 	
 	
-	//roooooottt service
+	protected $root_path;
 	
 	
 protected $db; 
@@ -31,17 +31,27 @@ protected $db;
 	* @param \phpbb\template\template	$template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $root_path, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template)
 	{
  $this->db = $db;
 $this->user = $user; 
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->template = $template;
+		$this->root_path = $root_path;
 	}
 
 	  public function classifica_tipster()
 	  {
+	  	
+	  	//impostazioni
+	  	$link_avatar_predefinito = "./style/pbetch/images/no_avatar.gif";
+	  	
+	  	//fine impostazioni
+	  	
+	  	
+	  	
+	  	
 	$mese_corrente = date("n");
       $anno = date("Y");
       $mese_x = "";
@@ -112,7 +122,7 @@ $this->user = $user;
                                       
                                       if($avatar == "")
                                       {
-                                        $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
+                                        $avatar_tipster = $link_avatar_predefinito;
                                       }else{
                                         $avatar_tipster = "./download/file.php?avatar=".$avatar;
                                       }
@@ -140,9 +150,12 @@ $this->user = $user;
                                       $winpicks=winpicks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
                                       $stake=stake_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
                                       $odd=odd_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                        		
+                        		
+                        	$intavaleposclas = intval($posizione_classifica);
                         
-                        //da sistemare root
-                        $link_profilo="{$this->rootpatch}app.php/statistiche_tipster/{$tipster}";
+
+                        $link_profilo="{$this->root_path}app.php/statistiche_tipster/{$tipster}";
 			$this->template-> assign_block_vars('profitto_autori_tipster_all',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
@@ -156,11 +169,9 @@ $this->user = $user;
 			'PICKS'			=> $picks,
 			'WINPICKS'		=> $winpicks,
 			'STAKE'			=> $stake,
-			'ODD'			=> $odd
+			'ODD'			=> $odd,
+			'INTVALPOSCLAS'		=> $intavaleposclas
 			));
-			
-			
-			
 			
 			$posizione_classifica = $posizione_classifica + 1;
                             }
@@ -189,6 +200,65 @@ $this->user = $user;
         }
         $this->db->sql_freeresult($result);
       }
+      
+      
+			    $sport = "1";
+                            $posizione_classifica = 1;
+                            foreach ($profitto_autori_tipster_all_calcio as $key => $value)
+                            {
+                                $tipster = $key;
+                                $mese = "%";
+                                $anno = "%";
+                                $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
+                                    	$result = $this->db->sql_query($sql);
+                                      $row = $this->db->sql_fetchrow($result);
+                                      $avatar = $row['user_avatar'];
+                                       if($avatar == "")
+                                       {
+                                        $avatar_tipster = "$link_avatar_predefinito";
+                                       }else{
+                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
+                                       }
+                                       $link_profilo="{$this->root_path}app.php/statistiche_tipster/{$tipster}";
+                                       
+                                       
+                                       if ($value >= 0 )
+					{
+					$up_down="up";	
+					}else{
+					$up_down="down";	
+					}
+					
+					$value2 = profitto_tipster_periodo_sport_specifico($this->db,$tipster,date("m"),date("Y"), $sport);
+                                       	if ($value2 >= 0 )
+                                       	{
+                                       	$up_down2="up";
+                                       	}else{
+                                       	$up_down2="down";
+                                       	}
+                                       	
+                                       	$picks = picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$winpicks = winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$stake = stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$odd = odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	
+                                $this->template-> assign_block_vars('risultati',array(
+				'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
+				'LINK_PROFILO'		=> $link_profilo,
+				'AVATAR_TIPSTER'	=> $avatar_tipster,
+				'TIPSTER'		=> $tipster,
+				'UP_DOWN'		=> $up_down,
+				'VALUE'			=> $value,
+				'UP_DOWN2'		=> $up_down2,
+				'VALUE2'		=> $value2,
+				'PICKS'			=> $picks,
+				'WINPICKS'		=> $winpicks,
+				'STAKE'			=> $stake,
+				'ODD'			=> $odd
+				));
+				$posizione_classifica = $posizione_classifica + 1;
+                            }
+      
       arsort($profitto_autori_tipster_all_calcio);
       
   //Calcola Profitto (TENNIS)
@@ -211,6 +281,12 @@ $this->user = $user;
         }
         $this->db->sql_freeresult($result);
       }
+      
+      
+      
+      
+      
+      
       arsort($profitto_autori_tipster_all_tennis);
       
   //Calcola Profitto (BASKET)
@@ -528,6 +604,11 @@ $this->user = $user;
          //$a = round($somma / $num_picks);
          return $a;   
       }
+      
+      
+      
+      
+      
       
       
       	return $this->helper->render('classifica_tipster.html', "Classifica Tipster");
