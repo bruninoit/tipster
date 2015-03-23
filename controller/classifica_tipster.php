@@ -136,7 +136,7 @@ $this->user = $user;
                                       $number_value=number_format($value, 2, '.', '');
                                       
                                       //controllo
-                                      $value2 = profitto_tipster_periodo_specifico($this->db,$tipster,date("m"),date("Y"));
+                                      $value2 = $this->helper->profitto_tipster_periodo_specifico($this->db,$tipster,date("m"),date("Y"));
                                       if ($value2 >= 0 )
                                       {
                                       $up_down_mese="up";
@@ -145,11 +145,11 @@ $this->user = $user;
                                       }
                                       
                                       //controllo
-                                      $yeld=yield_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
-                                      $picks=picks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
-                                      $winpicks=winpicks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
-                                      $stake=stake_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
-                                      $odd=odd_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $yeld=$this->helper->yield_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $picks=$this->helper->picks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $winpicks=$this->helper->winpicks_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $stake=$this->helper->stake_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
+                                      $odd=$this->helper->odd_avg_tipster_periodo_specifico($this->db,$tipster,$mese,$anno);
                         		
                         		
                         	$intavaleposclas = intval($posizione_classifica);
@@ -229,7 +229,7 @@ $this->user = $user;
 					$up_down="down";	
 					}
 					
-					$value2 = profitto_tipster_periodo_sport_specifico($this->db,$tipster,date("m"),date("Y"), $sport);
+					$value2 = $this->helper->profitto_tipster_periodo_sport_specifico($this->db,$tipster,date("m"),date("Y"), $sport);
                                        	if ($value2 >= 0 )
                                        	{
                                        	$up_down2="up";
@@ -237,10 +237,10 @@ $this->user = $user;
                                        	$up_down2="down";
                                        	}
                                        	
-                                       	$picks = picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
-                                       	$winpicks = winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
-                                       	$stake = stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
-                                       	$odd = odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$picks = $this->helper->picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$winpicks = $this->helper->winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$stake = $this->helper->stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$odd = $this->helper->odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
                                        	
                                 $this->template-> assign_block_vars('risultati',array(
 				'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
@@ -283,9 +283,62 @@ $this->user = $user;
       }
       
       
-      
-      
-      
+      $sport = "2";
+      $posizione_classifica = 1;
+      foreach ($profitto_autori_tipster_all_tennis as $key => $value)
+      {
+            $tipster = $key;
+            $mese = "%";
+            $anno = "%";
+            $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
+            $result = $this->db->sql_query($sql);
+            $row = $this->db->sql_fetchrow($result);
+            $avatar = $row['user_avatar'];
+            			if($avatar == "")
+                                  {
+                                        $avatar_tipster = $link_avatar_predefinito;
+                                      }else{
+                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
+                                   }
+            			if ($value >= 0 )
+                                      {
+                                      $up_down="up";
+                                      }else{
+                                      $up_down="down";
+                                      }
+                                      $number_value=number_format($value, 2, '.', '');
+                                      
+                                      //controllo
+				    $value2 = $this->helper->profitto_tipster_periodo_sport_specifico($db,$tipster,date("m"),date("Y"), $sport);                                      if ($value2 >= 0 )
+                                      {
+                                      $up_down_mese="up";
+                                      }else{
+                                      $up_down_mese="down";
+                                      }
+      					$picks = $this->helper->picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$winpicks = $this->helper->winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$stake = $this->helper->stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$odd = $this->helper->odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+
+      $link_profilo="{$this->root_path}app.php/statistiche_tipster/{$tipster}";
+      $this->template-> assign_block_vars('tennis',array(
+			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
+			'LINK_PROFILO'		=> $link_profilo,
+			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'TIPSTER'		=> $tipster,
+			'UP_DOWN'		=> $up_down,
+			'NUMBER_VALUE'		=> $number_value,
+			'UP_DOWN_MESE'		=> $up_down_mese,
+			'VALUEDUE'		=> $value2,
+			'YELD'			=> $yeld,
+			'PICKS'			=> $picks,
+			'WINPICKS'		=> $winpicks,
+			'STAKE'			=> $stake,
+			'ODD'			=> $odd,
+			'INTVALPOSCLAS'		=> $intavaleposclas
+			));
+      $posizione_classifica = $posizione_classifica + 1;
+      }
       
       arsort($profitto_autori_tipster_all_tennis);
       
@@ -309,6 +362,73 @@ $this->user = $user;
         }
         $this->db->sql_freeresult($result);
       }
+      
+      
+                            $sport = "4"; 
+                            $posizione_classifica = 1;
+                            foreach ($profitto_autori_tipster_all_basket as $key => $value)
+                            {
+                                $tipster = $key;
+                                $mese = "%";
+                                $anno = "%";
+      				$sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
+                                    	$result = $this->db->sql_query($sql);
+                                      $row = $this->db->sql_fetchrow($result);
+                                      $avatar = $row['user_avatar'];
+      				if($avatar == "")
+                                      {
+                                        $avatar_tipster = $link_avatar_predefinito;
+                                      }else{
+                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
+                                      }
+                                      
+                                      if ($value >= 0 )
+                                      {
+                                      $up_down="up";
+                                      }else{
+                                      $up_down="down";
+                                      }
+                                      $number_value=number_format($value, 2, '.', '');
+                                      
+                                      //controllo
+                                      $value2 = profitto_tipster_periodo_specifico($this->db,$tipster,date("m"),date("Y"));
+                                      if ($value2 >= 0 )
+                                      {
+                                      $up_down_mese="up";
+                                      }else{
+                                      $up_down_mese="down";
+                                      }
+      				//controllo
+   					$picks = $this->helper->picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$winpicks = $this->helper->winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$stake = $this->helper->stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$odd = $this->helper->odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+
+                        		
+                        	$intavaleposclas = intval($posizione_classifica);
+                        
+                        $link_profilo="{$this->root_path}app.php/statistiche_tipster/{$tipster}";
+			$this->template-> assign_block_vars('basket',array(
+			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
+			'LINK_PROFILO'		=> $link_profilo,
+			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'TIPSTER'		=> $tipster,
+			'UP_DOWN'		=> $up_down,
+			'NUMBER_VALUE'		=> $number_value,
+			'UP_DOWN_MESE'		=> $up_down_mese,
+			'VALUEDUE'		=> $value2,
+			'YELD'			=> $yeld,
+			'PICKS'			=> $picks,
+			'WINPICKS'		=> $winpicks,
+			'STAKE'			=> $stake,
+			'ODD'			=> $odd,
+			'INTVALPOSCLAS'		=> $intavaleposclas
+			));
+			
+			$posizione_classifica = $posizione_classifica + 1;
+                            }
+      
+      
       arsort($profitto_autori_tipster_all_basket);   
       
   //Calcola Profitto (FORMULA1)
@@ -331,6 +451,66 @@ $this->user = $user;
         }
         $this->db->sql_freeresult($result);
       }
+                             $sport = "9";
+                            $posizione_classifica = 1;
+                            foreach ($profitto_autori_tipster_all_formula1 as $key => $value)
+                            {
+                                $tipster = $key;
+                                $mese = "%";
+                                $anno = "%";
+      			$sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
+                                    	$result = $this->db->sql_query($sql);
+                                      $row = $this->db->sql_fetchrow($result);
+                                      $avatar = $row['user_avatar'];
+      				if($avatar == "")
+                                      {
+                                        $avatar_tipster = $link_avatar_predefinito;
+                                      }else{
+                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
+                                      }
+                                     if ($value >= 0 )
+                                      {
+                                      $up_down="up";
+                                      }else{
+                                      $up_down="down";
+                                      }
+                                      $number_value=number_format($value, 2, '.', '');
+                                      //controllo
+                                      $value2 = profitto_tipster_periodo_specifico($this->db,$tipster,date("m"),date("Y"));
+                                      if ($value2 >= 0 )
+                                      {
+                                      $up_down_mese="up";
+                                      }else{
+                                      $up_down_mese="down";
+                                      }
+                               //controllo
+                                        $picks = $this->helper->picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$winpicks = $this->helper->winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$stake = $this->helper->stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$odd = $this->helper->odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+				$intavaleposclas = intval($posizione_classifica);
+                        
+                        $link_profilo="{$this->root_path}app.php/statistiche_tipster/{$tipster}";
+			$this->template-> assign_block_vars('f1',array(
+			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
+			'LINK_PROFILO'		=> $link_profilo,
+			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'TIPSTER'		=> $tipster,
+			'UP_DOWN'		=> $up_down,
+			'NUMBER_VALUE'		=> $number_value,
+			'UP_DOWN_MESE'		=> $up_down_mese,
+			'VALUEDUE'		=> $value2,
+			'YELD'			=> $yeld,
+			'PICKS'			=> $picks,
+			'WINPICKS'		=> $winpicks,
+			'STAKE'			=> $stake,
+			'ODD'			=> $odd,
+			'INTVALPOSCLAS'		=> $intavaleposclas
+			));
+			
+			$posizione_classifica = $posizione_classifica + 1;
+                            }       
+                                      
       arsort($profitto_autori_tipster_all_formula1);
       
   //Calcola Profitto (HOCKEY)
@@ -353,262 +533,69 @@ $this->user = $user;
         }
         $this->db->sql_freeresult($result);
       }
+      
+      
+                                  $sport = "6"; 
+                            $posizione_classifica = 1;
+                            foreach ($profitto_autori_tipster_all_hockey as $key => $value) {
+                                $tipster = $key;
+                                $mese = "%";
+                                $anno = "%";
+      $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
+                                    	$result = $this->db->sql_query($sql);
+                                      $row = $this->db->sql_fetchrow($result);
+                                      $avatar = $row['user_avatar'];
+      				if($avatar == "")
+                                      {
+                                        $avatar_tipster = $link_avatar_predefinito;
+                                      }else{
+                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
+                                      }
+                                     if ($value >= 0 )
+                                      {
+                                      $up_down="up";
+                                      }else{
+                                      $up_down="down";
+                                      }
+                                      $number_value=number_format($value, 2, '.', '');
+                                      //controllo
+                                      $value2 = profitto_tipster_periodo_specifico($this->db,$tipster,date("m"),date("Y"));
+                                      if ($value2 >= 0 )
+                                      {
+                                      $up_down_mese="up";
+                                      }else{
+                                      $up_down_mese="down";
+                                      }
+                               //controllo
+                                        $picks = $this->helper->picks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$winpicks = $this->helper->winpicks_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$stake = $this->helper->stake_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+                                       	$odd = $this->helper->odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport);
+				$intavaleposclas = intval($posizione_classifica);
+                        
+                        $link_profilo="{$this->root_path}app.php/statistiche_tipster/{$tipster}";
+			$this->template-> assign_block_vars('hockey',array(
+			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
+			'LINK_PROFILO'		=> $link_profilo,
+			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'TIPSTER'		=> $tipster,
+			'UP_DOWN'		=> $up_down,
+			'NUMBER_VALUE'		=> $number_value,
+			'UP_DOWN_MESE'		=> $up_down_mese,
+			'VALUEDUE'		=> $value2,
+			'YELD'			=> $yeld,
+			'PICKS'			=> $picks,
+			'WINPICKS'		=> $winpicks,
+			'STAKE'			=> $stake,
+			'ODD'			=> $odd,
+			'INTVALPOSCLAS'		=> $intavaleposclas
+			));
+			
+			$posizione_classifica = $posizione_classifica + 1;
+                            }       
+      
       arsort($profitto_autori_tipster_all_hockey);
-      
-      
-     
-//Calcola ROI del Tipster per periodo specifico
-      function roi_tipster_periodo_specifico($db,$tipster,$mese,$anno)
-      {
-          $profitto_totale = 0;
-          $stake_totale = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result = $this->db->sql_query($sql);
-        
-          while ($row = $this->db->sql_fetchrow($result))
-        	{
-            $stake_totale += $row['pick_stake_a'];
-            $profitto_totale += floatval($row['valore_profitto_vincente']) + floatval($row['valore_profitto_perdente']);
-        	}
-          
-          $roi = round((($profitto_totale + $stake_totale)/$stake_totale),2)*100;
-          $this->db->sql_freeresult($result);
-        	  
-         return $roi;
-      } 
-      
-//Calcola YIELD del Tipster per periodo specifico
-      function yield_tipster_periodo_specifico($db,$tipster,$mese,$anno)
-      {
-         
-          $profitto_totale = 0;
-          $stake_totale = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result = $this->db->sql_query($sql);
-        
-          while ($row = $this->db->sql_fetchrow($result))
-        	{
-            //$stake = $row['pick_stake_a'];
-            //$quota = $row['pick_quota_a'].".".$row['pick_quota_b'].$row['pick_quota_c'];
-            //$profitto = ($stake * $quota) - $stake;
-            
-            //$profitto_totale += $profitto;
-            $stake_totale += $row['pick_stake_a'];
-            $profitto_totale += floatval($row['valore_profitto_vincente']) + floatval($row['valore_profitto_perdente']);
-        	}
-          
-         // $totale_parziale = $stake_totale + $profitto_totale;
-         // $yield = round((($profitto_totale - $stake_totale)/$stake_totale),2)* 100;
-          
-          $yield = round(($profitto_totale/$stake_totale),2)*100;
-          $this->db->sql_freeresult($result);
-	  return $yield;
-      }
-      
-   //Calcola ROI del Tipster per periodo e sport specifico 
-      function roi_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport)
-      {
-          $A = 0;
-          $B = 0;
-          $C = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          $result = $this->db->sql_query($sql);
-        
-        	while ($row = $this->db->sql_fetchrow($result))
-        	{
-            $quota = $row['pick_quota_a'].".".$row['pick_quota_b'].$row['pick_quota_c'];
-            $A += $row['pick_stake_a'];
-            $B += $row['pick_stake_a'] * $quota;
-        	}
-          $C = $B - $A;
-          if($A == 0) $A = 1;
-          $roi = round($C/$A,2);
-        	$this->db->sql_freeresult($result);
-  
-         return $roi;
-      }   
-      
-      
-   //Calcola Numero di Picks del Tipster per periodo specifico
-      function picks_tipster_periodo_specifico($db,$tipster,$mese,$anno)
-      {
-           
-          $sql = "SELECT COUNT(*) as numeroPicks FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result = $this->db->sql_query($sql);
-          $row = $this->db->sql_fetchrow($result);
-          
-          return $row['numeroPicks'];
-      }
-      
-  //Calcola Numero di Picks del Tipster per periodo e sport specifico
-      function picks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport)
-      {
-           
-          $sql = "SELECT COUNT(*) as numeroPicks FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          $result = $this->db->sql_query($sql);
-          $row = $this->db->sql_fetchrow($result);
-          
-          return $row['numeroPicks'];
-      }
-      
-  //Calcola Numero di Picks Vincenti del Tipster per periodo specifico
-      function winpicks_tipster_periodo_specifico($db,$tipster,$mese,$anno)
-      {
-        $sql = "SELECT COUNT(*) as numeroPicksVincenti FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND esito = 'vincente'";
-        $result = $this->db->sql_query($sql);
-        $row = $this->db->sql_fetchrow($result);
-        
-       return $row['numeroPicksVincenti'];
-      }
-      
-  //Calcola Numero di Picks Vincenti del Tipster per periodo e sport specifico
-      function winpicks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport)
-      {
-        $sql = "SELECT COUNT(*) as numeroPicksVincenti FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND esito = 'vincente' AND pick_sport = '".$sport."'";
-        $result = $this->db->sql_query($sql);
-        $row = $this->db->sql_fetchrow($result);
-        
-       return $row['numeroPicksVincenti'];
-      }
-      
-      
-  //Calcola Stake Avg del Tipster per periodo specifico
-      function stake_avg_tipster_periodo_specifico($db,$tipster,$mese,$anno)
-      {
-          $somma = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result = $this->db->sql_query($sql);
-          
-          while($row = $this->db->sql_fetchrow($result)){
-            $somma += $row['pick_stake_a'];    
-          }
-          
-          $sql2 = "SELECT COUNT(*) as numeroPicks FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result2 = $this->db->sql_query($sql2);
-          $row2 = $this->db->sql_fetchrow($result2);
-          $num_picks = $row2['numeroPicks'];
-          
-         $a = number_format(($somma / $num_picks),2); 
-         //$a = round($somma / $num_picks);
-         return $a;
-      }
-      
-    //Calcola Stake Avg del Tipster per periodo e sport specifico
-      function stake_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport)
-      {
-          $somma = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          $result = $this->db->sql_query($sql);
-          
-          while($row = $this->db->sql_fetchrow($result)){
-            $somma += $row['pick_stake_a'];    
-          }
-          
-          $sql2 = "SELECT COUNT(*) as numeroPicks FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          $result2 = $this->db->sql_query($sql2);
-          $row2 = $this->db->sql_fetchrow($result2);
-          $num_picks = $row2['numeroPicks'];
-          
-         $a = number_format(($somma / $num_picks),2); 
-         //$a = round($somma / $num_picks);
-         return $a;
-      }
-      
-   //Calcola Odd Avg del Tipster per periodo specifico
-      function odd_avg_tipster_periodo_specifico($db,$tipster,$mese,$anno)
-      {
-          $somma = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result = $this->db->sql_query($sql);
-          
-          while($row = $this->db->sql_fetchrow($result)){
-            $valore = floatval($row['pick_quota_a'].".".$row['pick_quota_b'].".".$row['pick_quota_c']);
-            $somma += $valore;    
-          }
-          
-          $sql2 = "SELECT COUNT(*) as numeroPicks FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $result2 = $this->db->sql_query($sql2);
-          $row2 = $this->db->sql_fetchrow($result2);
-          $num_picks = $row2['numeroPicks'];
-          
-         $a = number_format(($somma / $num_picks),2); 
-         //$a = round($somma / $num_picks);
-         return $a;   
-      }
-      
-  //Calcola Profitto del Tipster per periodo specifico
-      function profitto_tipster_periodo_specifico($db,$tipster,$mese,$anno,$giorno = '%')
-      {
-          $profitto = 0;
-          
-          //$sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%'";
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-"."$giorno'";
-          $result = $this->db->sql_query($sql);
-          
-        	while ($row = $this->db->sql_fetchrow($result))
-        	{
-            $profitto += floatval($row['valore_profitto_vincente']) + floatval($row['valore_profitto_perdente']);
-          }
-        	$this->db->sql_freeresult($result);
-  
-         return $profitto;
-      }
-      
-      
- //Calcola Profitto del Tipster per periodo e sport specifico
-      function profitto_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport)
-      {
-          $profitto = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          //$sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-"."$giorno' AND pick_sport = '".$sport."'";
-          
-          $result = $this->db->sql_query($sql);
-          
-        	while ($row = $this->db->sql_fetchrow($result))
-        	{
-            $profitto += floatval($row['valore_profitto_vincente']) + floatval($row['valore_profitto_perdente']);
-          }
-        	$this->db->sql_freeresult($result);
-  
-         return $profitto;
-      }
 
-
- //Calcola Odd Avg del Tipster per periodo e sport specifico
-      function odd_avg_tipster_periodo_sport_specifico($this->db,$tipster,$mese,$anno,$sport)
-      {
-          $somma = 0;
-          
-          $sql = "SELECT * FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          $result = $this->db->sql_query($sql);
-          
-          while($row = $this->db->sql_fetchrow($result))
-          {
-            $valore = floatval($row['pick_quota_a'].".".$row['pick_quota_b'].".".$row['pick_quota_c']);
-            $somma += $valore;    
-          }
-          
-          $sql2 = "SELECT COUNT(*) as numeroPicks FROM pronostici WHERE autore_tipster = '".$tipster."' AND data_evento LIKE '".$anno."-".$mese."-%' AND pick_sport = '".$sport."'";
-          $result2 = $this->db->sql_query($sql2);
-          $row2 = $this->db->sql_fetchrow($result2);
-          $num_picks = $row2['numeroPicks'];
-          
-         $a = number_format(($somma / $num_picks),2); 
-         //$a = round($somma / $num_picks);
-         return $a;   
-      }
-      
-      
-      
-      
-      
       
       
       	return $this->helper->render('classifica_tipster.html', "Classifica Tipster");
