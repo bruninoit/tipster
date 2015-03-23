@@ -7,9 +7,9 @@ class helper
 	protected $template;
 	/* @var \phpbb\user */
 	protected $user;
-protected $this->db; 
+protected $db; 
 	protected $helper;
-	public function __construct(\phpbb\db\driver\driver_interface $this->db, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\template\template $template)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\template\template $template)
 	{
 		 $this->db = $this->db;
 $this->user = $user; 
