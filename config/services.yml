@@ -10,7 +10,14 @@ services:
             - %core.root_path%
             - %core.php_ext%
         tags:
-            - { name: event.listener }
+            - { name: event.listener }ù
+    bruninoit.tipster.core:
+        class: bruninoit\tipster\core\helper
+        arguments:
+            - @dbal.conn
+            - @user
+            - @controller.helper
+            - @template
     bruninoit.tipster.controller:
         class: bruninoit\tipster\controller\classifica_tipster
         arguments:
