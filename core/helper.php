@@ -1,6 +1,6 @@
 <?php
 
-namespace brunnioit\tipster\core;
+namespace bruninoit\tipster\core;
 class helper
 {
 	/* @var \phpbb\template\template */
