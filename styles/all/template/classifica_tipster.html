@@ -823,7 +823,7 @@ DA CONTROLLARE!!!!!
                                  <!-- Profitto -->
                           			 
                           			 <td style="text-align:center;">
-                                      <img alt="" src="tipster/small_arrow_{tennis.UP_DOWN}.png" />{calcio.VALUE}
+                                      <img alt="" src="tipster/small_arrow_{tennis.UP_DOWN}.png" />{tennis.VALUE}
                                  </td>
                               <!-- Fine: Profitto -->
               			<!-- Profitto: Mese corrente -->
@@ -956,84 +956,44 @@ DA CONTROLLARE!!!!!
                             <tr>
                               <td></td>
                             </tr>
-
+					<!-- BEGIN f1 -->
                           		<tr>
                                 <!-- Posizione in Classifica -->
                                   <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      echo $posizione_classifica."&deg; posto";  
-                                    <!-- ENDPHP -->
+				{f1.POSIZIONE_CLASSIFICA}&deg; posto
                                   </td>
                                 <!-- Fine: Posizione in Classifica -->
                                 
                                 <!-- Tipster --> 
                                    <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
-                                    	$result = $db->sql_query($sql);
-                                      $row = $db->sql_fetchrow($result);
-                                      $avatar = $row['user_avatar'];
-                                      
-                                      if($avatar == ""){
-                                        $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
-                                      }else{
-                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
-                                      }
-                                    <!-- ENDPHP -->
-                                      <form method="post" action = "http://www.betonlybet.com/statistiche_tipster.php">
+                                      <form method="post" action = "./app.php/statistiche_tipster">
                                         <p>
-                                          <input style="display:none;" name="autore_tipster_5" id="autore_tipster_5" value="<!-- PHP -->echo $tipster;<!-- ENDPHP -->" />
+                                          <input style="display:none;" name="autore_tipster_5" id="autore_tipster_5" value="{f1.TIPSTER}" />
                                         </p>
                                       </form>
-                                      <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->">
-                                          <img alt = "" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="<!-- PHP -->echo $avatar_tipster;<!-- ENDPHP -->" />
+                                      <a href="{f1.LINK_PROFILO}">
+                                          <img alt = "" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="{f1.AVATAR_TIPSTER}" />
                                       </a>
                                       <br />
-                                      <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->"><!-- PHP -->echo "<span style=\"text-align:center;\">".$tipster."</span>";<!-- ENDPHP --></a>
+                                      <a href="{f1.LINK_PROFILO}"><span style="text-align:center;">{f1.TIPSTER}</span></a>
                                    </td>         
                                  <!-- Fine: Tipster -->
-                             
-                              <!-- Profitto -->
+<!-- Profitto -->
                           			 <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      if ($value >= 0 ){
-                                    <!-- ENDPHP -->
-                                      <img alt="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }else{
-                                    <!-- ENDPHP -->
-                                      <img alt="" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }
-                                    <!-- ENDPHP -->
+                                      <img alt="" src="tipster/small_arrow_{f1.UP_DOWN}.png" />{f1.VALUE}
                                  </td>
-                              <!-- Fine: Profitto -->
-                                <!-- Profitto: Mese corrente -->
+<!-- Fine: Profitto -->
+<!-- Profitto: Mese corrente -->
                                   <td style="text-align: center;">
-                                     <!-- PHP -->
-                                      $value2 = profitto_tipster_periodo_sport_specifico($db,$tipster,date("m"),date("Y"), $sport);
-                                        if ($value2 >= 0 ){
-                                      <!-- ENDPHP -->
-                                        <img alt ="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                      <!-- PHP -->
-                                        }else{
-                                      <!-- ENDPHP -->
-                                        <img alt = "" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                      <!-- PHP -->
-                                        }
-                                      <!-- ENDPHP -->
+                                        <img alt ="" src="tipster/small_arrow_{f1.UP_DOWN2}.png" />{f1.VALUE2}
                                   </td>
-                                <!-- Fine: Profitto: Mese corrente -->
-                                <td style="text-align:center;"><!-- PHP -->echo picks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo winpicks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo stake_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo odd_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
+<!-- Fine: Profitto: Mese corrente -->
+				<td style="text-align:center;">{f1.PICKS}</td>
+                                <td style="text-align:center;">{f1.WINPICKS}</td>
+                                <td style="text-align:center;">{f1.STAKE}</td>
+                                <td style="text-align:center;">{f1.ODD}</td>
                           </tr>
-                             
-                          <!-- PHP -->
-                            $posizione_classifica = $posizione_classifica + 1; 
-                            }
-                          <!-- ENDPHP --> 
+<!-- END f1 -->
                     
                           </tbody>
                         </table>
@@ -1072,92 +1032,47 @@ DA CONTROLLARE!!!!!
                             <tr>
                               <td></td>
                             </tr>
-                            <!-- PHP -->
-                            $sport = "6"; 
-                            $posizione_classifica = 1;
-                            foreach ($profitto_autori_tipster_all_hockey as $key => $value) {
-                                $tipster = $key;
-                                $mese = "%";
-                                $anno = "%";
-                                
-                            <!-- ENDPHP -->  
+			<!-- BEGIN hockey -->  
                           		<tr>
                                 <!-- Posizione in Classifica -->
                                   <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      echo $posizione_classifica."&deg; posto";  
-                                    <!-- ENDPHP -->
+				{tennis.POSIZIONE_CLASSIFICA}&deg; posto
                                   </td>
                                 <!-- Fine: Posizione in Classifica -->
                                 
                                 <!-- Tipster --> 
                                    <td style="text-align:center;">
                                     <!-- PHP -->
-                                      $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
-                                    	$result = $db->sql_query($sql);
-                                      $row = $db->sql_fetchrow($result);
-                                      $avatar = $row['user_avatar'];
-                                      
-                                      if($avatar == ""){
-                                        $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
-                                      }else{
-                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
-                                      }
-                                    <!-- ENDPHP -->
-                                      <form method="post" action = "http://www.betonlybet.com/statistiche_tipster.php">
+                                      <form method="post" action = "./app.php/statistiche_tipster">
                                         <p>
-                                          <input style="display:none;" name="autore_tipster_6" id="autore_tipster_6" value="<!-- PHP -->echo $tipster;<!-- ENDPHP -->" />
+                                          <input style="display:none;" name="autore_tipster_6" id="autore_tipster_6" value="{hockey.TIPSTER}" />
                                         </p>
                                       </form>
-                                      <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->">
-                                          <img alt="" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="<!-- PHP -->echo $avatar_tipster;<!-- ENDPHP -->" />
+                                      <a href="{hockey.LINK_PROFILO}">
+                                          <img alt="" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="{hockey.AVATAR_TIPSTER}" />
                                       </a>
                                       <br />
-                                      <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->"><!-- PHP -->echo "<span style=\"text-align:center;\">".$tipster."</span>";<!-- ENDPHP --></a>
+                                      <a href="{hockey.LINK_PROFILO}"><span style="text-align:center;">{hockey.TIPSTER}</span></a>
                                    </td>         
                                  <!-- Fine: Tipster -->
                              
-                              <!-- Profitto -->
+                             <!-- Profitto -->
                           			 <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      if ($value >= 0 ){
-                                    <!-- ENDPHP -->
-                                      <img alt="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }else{
-                                    <!-- ENDPHP -->
-                                      <img alt="" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }
-                                    <!-- ENDPHP -->
+                                      <img alt="" src="tipster/small_arrow_{hockey.UP_DOWN}.png" />{hockey.VALUE}
                                  </td>
-                              <!-- Fine: Profitto -->
-                                <!-- Profitto: Mese corrente -->
+<!-- Fine: Profitto -->
+<!-- Profitto: Mese corrente -->
                                   <td style="text-align: center;">
-                                     <!-- PHP -->
-                                      $value2 = profitto_tipster_periodo_sport_specifico($db,$tipster,date("m"),date("Y"), $sport);
-                                        if ($value2 >= 0 ){
-                                      <!-- ENDPHP -->
-                                        <img alt ="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                      <!-- PHP -->
-                                        }else{
-                                      <!-- ENDPHP -->
-                                        <img alt = "" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                      <!-- PHP -->
-                                        }
-                                      <!-- ENDPHP -->
+                                        <img alt ="" src="tipster/small_arrow_{hockey.UP_DOWN2}.png" />{hockey.VALUE2}
                                   </td>
-                                <!-- Fine: Profitto: Mese corrente -->
-                                <td style="text-align:center;"><!-- PHP -->echo picks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo winpicks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo stake_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo odd_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
+<!-- Fine: Profitto: Mese corrente -->
+				<td style="text-align:center;">{hockey.PICKS}</td>
+                                <td style="text-align:center;">{hockey.WINPICKS}</td>
+                                <td style="text-align:center;">{hockey.STAKE}</td>
+                                <td style="text-align:center;">{hockey.ODD}</td>
                           </tr>
                              
-                          <!-- PHP -->
-                            $posizione_classifica = $posizione_classifica + 1; 
-                            }
-                          <!-- ENDPHP --> 
+                              <!-- END hockey -->
                     
                           </tbody>
                         </table>
@@ -1171,6 +1086,3 @@ DA CONTROLLARE!!!!!
 <iframe allowtransparency="true" src="http://media.paddypower.com/ad.aspx?bid=6371&pid=10068830" width="468" height="60" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no"></iframe></div></center>
     	   </li>
  		   </ul>
-<!--    </div>
-  </div> 
-</div> -->
