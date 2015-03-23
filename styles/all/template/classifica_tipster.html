@@ -808,7 +808,7 @@ DA CONTROLLARE!!!!!
                                 
                                 <!-- Tipster --> 
                                    <td style="text-align:center;">
-                                      <form method="post" action="http://www.betonlybet.com/app.php/statistiche_tipster">
+                                      <form method="post" action="./app.php/statistiche_tipster">
                                         <p>
                                           <input style="display:none;" name="autore_tipster_3" id="autore_tipster_3" value="{tennis.TIPSTER}" />
                                         </p>
@@ -823,20 +823,19 @@ DA CONTROLLARE!!!!!
                                  <!-- Profitto -->
                           			 
                           			 <td style="text-align:center;">
-                                      <img alt="" src="tipster/small_arrow_{calcio.UP_DOWN}.png" />{calcio.VALUE}
+                                      <img alt="" src="tipster/small_arrow_{tennis.UP_DOWN}.png" />{calcio.VALUE}
                                  </td>
                               <!-- Fine: Profitto -->
               			<!-- Profitto: Mese corrente -->
                                   <td style="text-align: center;">
-                                        
-                                      <!-- ENDPHP -->
-                                        <img alt ="" src="tipster/small_arrow_{TENNIS.UP_DOWN2}.png" />{tennis.VALUE2}
+                  
+                                        <img alt ="" src="tipster/small_arrow_{tennis.UP_DOWN2}.png" />{tennis.VALUE2}
                                   </td>
                                 <!-- Fine: Profitto: Mese corrente -->
-				<td style="text-align:center;">{calcio.PICKS}</td>
-                                <td style="text-align:center;">{calcio.WINPICKS}</td>
-                                <td style="text-align:center;">{calcio.STAKE}</td>
-                                <td style="text-align:center;">{calcio.ODD}</td>
+				<td style="text-align:center;">{tennis.PICKS}</td>
+                                <td style="text-align:center;">{tennis.WINPICKS}</td>
+                                <td style="text-align:center;">{tennis.STAKE}</td>
+                                <td style="text-align:center;">{tennis.ODD}</td>
                           </tr>
                     <!-- END tennis -->
                           </tbody>
@@ -850,7 +849,7 @@ DA CONTROLLARE!!!!!
                           <table cellpadding="0" cellspacing="0" id="classifica_generale" style="border:0;width:100%;margin:1px;">
                           	<thead>
                           		<tr>
-                          			<th style="padding:10px;text-align:center;">Posizione</th>
+                          	<th style="padding:10px;text-align:center;">Posizione</th>
                                 <th style="padding:10px;text-align:center;">Tipster</th>
                                 <th style="padding:10px;text-align:center;">Profitto</th> 
                                 <th style="padding:10px;text-align:center;">Profitto ({MESE_X})</th>
@@ -876,84 +875,49 @@ DA CONTROLLARE!!!!!
                             <tr>
                               <td></td>
                             </tr>
+                            <!-- BEGIN basket -->
                           		<tr>
                                 <!-- Posizione in Classifica -->
                                   <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      echo $posizione_classifica."&deg; posto";  
-                                    <!-- ENDPHP -->
+                                      {tennis.POSIZIONE_CLASSIFICA}&deg; posto  
                                   </td>
                                 <!-- Fine: Posizione in Classifica -->
                                 
                                 <!-- Tipster --> 
                                    <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      $sql = "SELECT * FROM phpbb_users WHERE username = '" .$tipster."'";
-                                    	$result = $db->sql_query($sql);
-                                      $row = $db->sql_fetchrow($result);
-                                      $avatar = $row['user_avatar'];
-                                      
-                                      if($avatar == ""){
-                                        $avatar_tipster = "./styles/se_sprites/theme/images/no_avatar.gif";
-                                      }else{
-                                        $avatar_tipster = "./download/file.php?avatar=".$avatar;
-                                      }
-                                    <!-- ENDPHP -->
+
                                  
-                                    <form method="get" action = "http://www.betonlybet.com/statistiche_tipster.php">
+                                    <form method="get" action = "./app.php/statistiche_tipster">
                                       <p>
-                                        <input style="display:none;" name="tipster_2" id="tipster_2" value="<!-- PHP -->echo $tipster;<!-- ENDPHP -->" />
+                                        <input style="display:none;" name="tipster_2" id="tipster_2" value="{basket.TIPSTER}" />
                                       </p>
                                     </form>
-                                    <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->">
-                                      <img alt="" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="<!-- PHP -->echo $avatar_tipster;<!-- ENDPHP -->" />
+                                    <a href="{basket.LINK_PROFILO}">
+                                      <img alt="" style="display: block;margin-left: auto;margin-right: auto;width:50px;height:50px;" src="{basket.AVATAR_TIPSTER}" />" />
                                     </a>
                                     <br />
-                                    <a href="{ROOT_PATH}statistiche-tipster.php?tipster=<!-- PHP -->echo $tipster;<!-- ENDPHP -->"><!-- PHP -->echo "<span style=\"text-align:center;\">".$tipster."</span>";<!-- ENDPHP --></a>
+                                    <a href="{basket.LINK_PROFILO}"><span style="text-align:center;">{basket.TIPSTER}</span></a>
                                    </td>         
                                  <!-- Fine: Tipster -->
                              
                               <!-- Profitto -->
+                          			 
                           			 <td style="text-align:center;">
-                                    <!-- PHP -->
-                                      if ($value >= 0 ){
-                                    <!-- ENDPHP -->
-                                      <img alt="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }else{
-                                    <!-- ENDPHP -->
-                                      <img alt="" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value;<!-- ENDPHP -->
-                                    <!-- PHP -->
-                                      }
-                                    <!-- ENDPHP -->
+                                      <img alt="" src="tipster/small_arrow_{basket.UP_DOWN}.png" />{basket.VALUE}
                                  </td>
                               <!-- Fine: Profitto -->
-                                <!-- Profitto: Mese corrente -->
+              			<!-- Profitto: Mese corrente -->
                                   <td style="text-align: center;">
-                                     <!-- PHP -->
-                                      $value2 = profitto_tipster_periodo_sport_specifico($db,$tipster,date("m"),date("Y"), $sport);
-                                        if ($value2 >= 0 ){
-                                      <!-- ENDPHP -->
-                                        <img alt ="" src="tipster/small_arrow_up.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                      <!-- PHP -->
-                                        }else{
-                                      <!-- ENDPHP -->
-                                        <img alt = "" src="tipster/small_arrow_down.png" /> <!-- PHP --> echo $value2;<!-- ENDPHP -->
-                                      <!-- PHP -->
-                                        }
-                                      <!-- ENDPHP -->
+
+                                        <img alt ="" src="tipster/small_arrow_{basket.UP_DOWN2}.png" />{basket.VALUE2}
                                   </td>
                                 <!-- Fine: Profitto: Mese corrente -->
-                                <td style="text-align:center;"><!-- PHP -->echo picks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo winpicks_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo stake_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
-                                <td style="text-align:center;"><!-- PHP -->echo odd_avg_tipster_periodo_sport_specifico($db,$tipster,$mese,$anno,$sport);<!-- ENDPHP --></td>
+				<td style="text-align:center;">{basket.PICKS}</td>
+                                <td style="text-align:center;">{basket.WINPICKS}</td>
+                                <td style="text-align:center;">{basket.STAKE}</td>
+                                <td style="text-align:center;">{basket.ODD}</td>
                           </tr>
-                             
-                          <!-- PHP -->
-                            $posizione_classifica = $posizione_classifica + 1; 
-                            }
-                          <!-- ENDPHP --> 
+                    <!-- END basket -->
                     
                           </tbody>
                         </table>
@@ -992,15 +956,7 @@ DA CONTROLLARE!!!!!
                             <tr>
                               <td></td>
                             </tr>
-                            <!-- PHP --> 
-                            $sport = "9";
-                            $posizione_classifica = 1;
-                            foreach ($profitto_autori_tipster_all_formula1 as $key => $value) {
-                                $tipster = $key;
-                                $mese = "%";
-                                $anno = "%";
-                                
-                            <!-- ENDPHP -->  
+
                           		<tr>
                                 <!-- Posizione in Classifica -->
                                   <td style="text-align:center;">
