@@ -7,7 +7,7 @@
 *
 */
 namespace bruninoit\tipster\controller;
-class main
+class classifica_tipster
 {
 	/* @var \phpbb\config\config */
 	protected $config;
@@ -31,7 +31,7 @@ protected $db;
 	* @param \phpbb\template\template	$template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $root_path, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, $root_path)
 	{
  $this->db = $db;
 $this->user = $user; 
@@ -159,7 +159,7 @@ $this->user = $user;
 			$this->template-> assign_block_vars('profitto_autori_tipster_all',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
-			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'AVATAR_TIPSTER'	=> $avatar_tipster,
 			'TIPSTER'		=> $tipster,
 			'UP_DOWN'		=> $up_down,
 			'NUMBER_VALUE'		=> $number_value,
@@ -324,7 +324,7 @@ $this->user = $user;
       $this->template-> assign_block_vars('tennis',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
-			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'AVATAR_TIPSTER'	=> $avatar_tipster,
 			'TIPSTER'		=> $tipster,
 			'UP_DOWN'		=> $up_down,
 			'NUMBER_VALUE'		=> $number_value,
@@ -411,7 +411,7 @@ $this->user = $user;
 			$this->template-> assign_block_vars('basket',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
-			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'AVATAR_TIPSTER'	=> $avatar_tipster,$
 			'TIPSTER'		=> $tipster,
 			'UP_DOWN'		=> $up_down,
 			'NUMBER_VALUE'		=> $number_value,
@@ -494,7 +494,7 @@ $this->user = $user;
 			$this->template-> assign_block_vars('f1',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
-			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'AVATAR_TIPSTER'	=> $avatar_tipster,
 			'TIPSTER'		=> $tipster,
 			'UP_DOWN'		=> $up_down,
 			'NUMBER_VALUE'		=> $number_value,
@@ -577,7 +577,7 @@ $this->user = $user;
 			$this->template-> assign_block_vars('hockey',array(
 			'POSIZIONE_CLASSIFICA'	=> $posizione_classifica,
 			'LINK_PROFILO'		=> $link_profilo,
-			'AVATAR_TIPSTER'	=> $avatar_tipster
+			'AVATAR_TIPSTER'	=> $avatar_tipster,
 			'TIPSTER'		=> $tipster,
 			'UP_DOWN'		=> $up_down,
 			'NUMBER_VALUE'		=> $number_value,
